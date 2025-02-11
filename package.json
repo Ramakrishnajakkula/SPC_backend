@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "SPC-backend",
   "version": "1.0.0",
   "description": "Node.js backend for Vercel",
   "main": "server.js",
@@ -12,9 +12,8 @@
     "mongoose": "^8.10.0"
   },
   "scripts": {
-    "dev": "vercel dev",  
-    "start": "vercel dev", 
-    "deploy": "vercel --prod"  
-  },
-  "devDependencies": {}
+    "dev": "vercel dev",
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  }
 }
