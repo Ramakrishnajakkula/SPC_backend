@@ -11,5 +11,9 @@
      "src": "/(.*)",
      "dest": "/server.js"
       }
-    ]
+    ],
+    "env": {
+    "MONGODB_URI": "mongodb+srv://ramakrishna:Anji%40178909@cluster0.ifqbcou.mongodb.net/SPC?retryWrites=true&w=majority",
+    "JWT_SECRET": "your_jwt_secret_key"
+  }
      }
