@@ -1,35 +1,25 @@
-// server.js
+// routes/auth.js
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-const authRoutes = require('./routes/auth');
+const router = express.Router();
+const authController = require('../controllers/authController');
+const auth = require('../middleware/auth');
 
-const app = express();
-
-// Updated CORS configuration
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://spc-backend-ak3gurdro-ramakrishnajakkulas-projects.vercel.app'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept'],
-  exposedHeaders: ['Content-Range', 'X-Content-Range']
-}));
-
-// Handle OPTIONS preflight
-app.options('*', cors());
-
-app.use(express.json());
-app.use('/api/auth', authRoutes);
-
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Test endpoint
+router.get('/test', (req, res) => {
+  try {
+    res.status(200).json({ 
+      message: 'Auth endpoint is working!',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Auth endpoint error',
+      error: error.message 
+    });
+  }
 });
 
-module.exports = app;
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
+
+module.exports = router;
