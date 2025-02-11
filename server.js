@@ -17,13 +17,7 @@ app.use(cors({
 app.use(express.json());
 
 // Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV
-  });
-});
+app.use('/api', require('./routes/videoRoutes'));
 
 // Test route
 app.get('/api/test', (req, res) => {
@@ -47,6 +41,13 @@ app.use((err, req, res, next) => {
     error: process.env.NODE_ENV === 'production' 
       ? 'Internal server error' 
       : err.message
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: 'Route not found',
+    path: req.originalUrl 
   });
 });
 
