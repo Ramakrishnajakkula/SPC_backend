@@ -17,6 +17,15 @@ app.use(cors({
 
 app.use(express.json());
 
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  if (req.body && Object.keys(req.body).length > 0) {
+    console.log('Request body:', { ...req.body, password: req.body.password ? '***masked***' : undefined });
+  }
+  next();
+});
+
 // Health check endpoint
 app.use('/api', require('./routes/videoRoutes'));
 
