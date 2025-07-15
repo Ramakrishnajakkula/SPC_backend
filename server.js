@@ -1,15 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const authRoutes = require('./routes/auth');
 
 const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: ["http://localhost:5174","http://localhost:5173","http://localhost:3000","https://ramakrishnajakkula.github.io"],
-  credentials: true,
+  origin: "*",
+  credentials: false,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -52,6 +53,14 @@ app.use((req, res) => {
 });
 
 // Database connection
+console.log('🔍 MONGODB_URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
+console.log('🔍 NODE_ENV:', process.env.NODE_ENV || 'Not set');
+
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI environment variable is not set');
+  process.exit(1);
+}
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
