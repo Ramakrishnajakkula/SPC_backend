@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const authRoutes = require('./routes/auth');
+const hackathonRoutes = require('./routes/hackathonRoutes');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.get('/api/test', (req, res) => {
 
 // Mount routes
 app.use('/api/auth', authRoutes);
+app.use('/api/hackathons', hackathonRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
